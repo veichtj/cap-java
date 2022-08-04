@@ -1,0 +1,18 @@
+{
+  "build": {
+    "target": "."
+  },
+  "hana": {
+    "deploy-format": "hdbtable"
+  },
+  "requires": {
+    "[production]": {
+      "db": {
+        "kind": "hana-cloud"
+      }
+    },
+    "db": {
+      "kind": "sql"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+---
+spring:
+  config.activate.on-profile: cloud
+  sql.init.schema-locations: "classpath:schema.sql"
+logging:
+  level:
+    '[com.sap.cds.auditlog]': DEBUG
+cds:
+  security.mock.users:
+    - name: admin
+      password: admin
+      roles:
+        - admin
+      attributes:
+        businessPartner:
+          - "10401010"
+    - name: user
+      password: user
+---
+spring:
+  config.activate.on-profile: default
+cds:
+  datasource:
+    auto-config.enabled: false
+  security.mock.users:
+    - name: admin
+      password: admin
+      roles:
+        - admin
+      attributes:
+        businessPartner:
+          - "10401010"
+    - name: user
+      password: user

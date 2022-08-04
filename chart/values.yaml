@@ -1,0 +1,34 @@
+global:
+  domain: c-602f145.kyma.ondemand.com
+  imagePullSecret:
+    name: container-registry
+srv:
+  bindings:
+    db:
+      fromSecret: javasample-db
+  image:
+    repository: index.docker.io/joedocker81/javasample-srv
+    tag: latest
+  env:
+    SPRING_PROFILES_ACTIVE: cloud
+  resources:
+    limits:
+      cpu: 700m
+      ephemeral-storage: 1G
+      memory: 1G
+    requests:
+      cpu: 100m
+      ephemeral-storage: 1G
+      memory: 1G
+  health_check:
+    liveness:
+      path: /
+    readiness:
+      path: /
+hana_deployer:
+  image:
+    repository: index.docker.io/joedocker81/javasample-hana-deployer
+    tag: latest
+  bindings:
+    hana:
+      fromSecret: javasample-db
