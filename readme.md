@@ -42,8 +42,26 @@
     helm upgrade bookshop ./chart --install -f values.yaml
     ```
   
-## Initialize a CAP Java project
+### Initialize a CAP Java project
 
 - initialize a new project```cds init <PROJECT-ROOT> --add java ```
 - add sample CDS model ```mvn com.sap.cds:cds-maven-plugin:addSample```
+- add k8s dependency to enable datasource detection  
+  ```		
+  <dependency>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-feature-k8s</artifactId>
+     <scope>runtime</scope>
+  </dependency>
+
+### Run locally with h2 database
+- ```mvn spring-boot:run```
+- detects changes in the CDS model, builds and restarts the app ```mvn cds:watch
+
+
+### Run locally with connected HANA instance
+- ```cds bind --to javasample-db --on k8s```
+- add hybrid profile to ``application.yaml``
+- 
+- ```cds bind --exec -- mvn spring-boot:run  -Dspring-boot.run.profiles=hybrid```
 - 

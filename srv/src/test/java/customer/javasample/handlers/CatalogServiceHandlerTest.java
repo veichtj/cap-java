@@ -1,18 +1,18 @@
 package customer.javasample.handlers;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.stream.Stream;
-
+import cds.gen.catalogservice.Book;
 import org.junit.Before;
 import org.junit.Test;
 
-import cds.gen.catalogservice.Books;
+import java.util.stream.Stream;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class CatalogServiceHandlerTest {
 
 	private CatalogServiceHandler handler = new CatalogServiceHandler();
-	private Books book = Books.create();
+	private Book book = Book.create();
 
 	@Before
 	public void prepareBook() {

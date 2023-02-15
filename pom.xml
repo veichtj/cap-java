@@ -11,14 +11,11 @@
 	<name>javasample parent</name>
 
 	<properties>
-		<!-- OUR VERSION -->
 		<revision>1.0.0-SNAPSHOT</revision>
-
-		<!-- DEPENDENCIES VERSION -->
 		<jdk.version>1.8</jdk.version>
-		<cds.services.version>1.26.0</cds.services.version>
-		<spring.boot.version>2.6.8</spring.boot.version>
-
+		<cds.services.version>1.30.2</cds.services.version>
+		<spring.boot.version>2.7.8</spring.boot.version>
+		<cds.install-cdsdk.version>6.4.1</cds.install-cdsdk.version>
 		<node.url>https://nodejs.org/dist/</node.url>
 	</properties>
 
@@ -45,6 +42,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
