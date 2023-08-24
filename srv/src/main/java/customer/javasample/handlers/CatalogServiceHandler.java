@@ -2,7 +2,6 @@ package customer.javasample.handlers;
 
 import cds.gen.catalogservice.Book;
 import cds.gen.catalogservice.CatalogService_;
-import com.sap.cds.services.cds.CdsService;
 import com.sap.cds.services.cds.CqnService;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.After;
@@ -14,18 +13,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
 
+import static com.sap.cds.services.cds.CqnService.EVENT_READ;
+
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 @Slf4j
 public class CatalogServiceHandler implements EventHandler {
-
-
 	@Autowired
 	@Qualifier(CatalogService_.CDS_NAME)
 	CqnService catalogService;
 
 
-	@After(event = CdsService.EVENT_READ)
+	@After(event = EVENT_READ)
 	public void discountBooks(Stream<Book> books) {
 		books.filter(b -> b.getTitle() != null && b.getStock() != null)
 		.filter(b -> b.getStock() > 200)

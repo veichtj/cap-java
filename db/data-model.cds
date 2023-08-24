@@ -14,7 +14,7 @@ entity Author: cuid, managed {
    book : Association to many Book on book.author = $self;
 }
 
-entity Book @cds.autoexpose {
+entity Book {
   key ID : Integer;
   title  : String;
   stock  : Integer;

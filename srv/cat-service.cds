@@ -2,11 +2,12 @@ using db.bookshop as bookshop from '../db/data-model';
 
 @cds.query.limit.default: 20
 @cds.query.limit.max: 100
-@path: 'v1/path/api'
+@protocols : ['odata-v4']
 service CatalogService {
 
     @cds.redirection.target: true
     @cds.search: {first_name}
+    @odata.draft.enabled
     entity Author as
         select from bookshop.Author as author left join StatusReference as stRef on author.status = stRef.statusId {
             key author.ID,
@@ -16,6 +17,7 @@ service CatalogService {
             book,
             stRef.description
     };
+   @cds.redirection.target: true
     entity Book as projection on bookshop.Book {
         *,
         author.first_name as authorFirstName
