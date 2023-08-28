@@ -1,21 +1,19 @@
 package customer.javasample.handlers;
 
-import cds.gen.catalogservice.Book;
 import cds.gen.catalogservice.ReserveBookContext;
 import cds.gen.catalogservice.ReserveBookMessage;
-import com.sap.cds.services.EventContext;
-import com.sap.cds.services.persistence.PersistenceService;
-import org.assertj.core.api.Assert;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("default")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -24,18 +22,14 @@ public class ReserveBookHandlerTest {
 
 	@Autowired
 	private ReserveBookHandler handler;
-
-	private Book book = Book.create();
-
+	@SpyBean
+	ChangeHistoryEventHandler eventHandler;
 
 	@Test
-	public void testReserveBook(){
-
+	public void when_book_reserved_then_publish_event(){
 		ReserveBookMessage msg = handler.reserveBook(ReserveBookContext.create());
 		assertThat(msg.getAck()).isEqualTo("13A");
-		ReserveBookContext ctx = EventContext.create(ReserveBookContext.class, null);
-
-
+		verify(eventHandler, times(1)).handleBookReservedEvent(any());
 	}
 
 }

@@ -1,4 +1,5 @@
 using db.bookshop as bookshop from '../db/data-model';
+using { managed, cuid } from '@sap/cds/common';
 
 @cds.query.limit.default: 20
 @cds.query.limit.max: 100
@@ -31,6 +32,11 @@ service CatalogService {
 
     action reserveBook () returns reserveBookMessage;
     type reserveBookMessage { ack: String enum { yes; nope; }};
+
+    event BookReservedEvent : cuid {
+      bookId  : Book:ID
+    }
+
 }
 
 

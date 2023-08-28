@@ -11,6 +11,7 @@ import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
+import customer.javasample.service.EventPublisher;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,18 +22,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ReserveBookHandler implements EventHandler {
 
-
     private PersistenceService db;
+    private final EventPublisher eventPublisher;
 
-    //Get the event out of the methor signature
     @On()
     public ReserveBookMessage reserveBook(ReserveBookContext ctx){
         Result result = db.run(Select.from(CatalogService_.BOOK).where(b -> b.isbn_format().eq("13A")));
-        Book firstBook = result.first(Book.class).orElseThrow(()-> new ServiceException("Could not find book"));
+        Book book = result.first(Book.class).orElseThrow(()-> new ServiceException("Could not find book"));
         ReserveBookMessage msg = ReserveBookMessage.create();
-        msg.setAck(firstBook.getIsbnFormat());
+        msg.setAck(book.getIsbnFormat());
         ctx.setResult(msg);
         ctx.setCompleted();
+        eventPublisher.publishBookReservedEvent(book);
         return msg;
     }
 
